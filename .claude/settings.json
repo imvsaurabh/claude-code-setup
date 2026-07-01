@@ -1,0 +1,40 @@
+{
+  "_comment": "Placeholder commands below — replace with your actual build/lint/test/scan commands. Verify hook event names and matcher syntax against the current Claude Code docs before relying on this, since the hook schema evolves.",
+
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "filter": "*.java",
+        "hooks": [
+          { "type": "command", "command": "<your-format-command>" },
+          { "type": "command", "command": "<your-lint-command>" },
+          { "type": "command", "command": "<your-affected-tests-command>" },
+          { "type": "command", "command": "gitleaks protect --staged --redact" }
+        ]
+      },
+      {
+        "matcher": "Edit|Write",
+        "filter": "pom.xml",
+        "hooks": [
+          { "type": "command", "command": "mvn org.owasp:dependency-check-maven:check" }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          { "type": "command", "command": "<script-that-blocks-force-push-and-direct-main-commits>" }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          { "type": "command", "command": "<script-that-confirms-CLAUDE-md-loaded-and-branch-is-not-main>" }
+        ]
+      }
+    ]
+  }
+}
